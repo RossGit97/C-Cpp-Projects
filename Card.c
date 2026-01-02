@@ -1,36 +1,45 @@
 #include <stdio.h>
-#include <string.h>
 
 typedef enum {
-	CLUB
-	DIAMOND,
-	HEART,
-	SPADE
+    CLUBS, DIAMONDS, HEARTS, SPADES
 } Suit;
 
 typedef enum {
-	Ace,
-	Two,
-	Three,
-	Four,
-	Five,
-	Six,
-	Seven,
-	Eight,
-	Nine,
-	Ten,
-	Jack,
-	Queen,
-	King
+    TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN,
+    JACK, QUEEN, KING, ACE
 } Rank;
 
 typedef struct {
-	Suit cardSuit;
-	Rank cardRank;
+    Suit suit;
+    Rank rank;
 } Card;
 
-
-
-int main(void){
-	
+void initialize_deck(Card deck[], int size) {
+    int card_count = 0;
+	int s,r;
+    for (s = CLUBS; s <= SPADES; s++) {
+        for (r = TWO; r <= ACE; r++) {
+            if (card_count < size) {
+                deck[card_count].suit = (Suit)s;
+                deck[card_count].rank = (Rank)r;
+                card_count++;
+            }
+        }
+    }
 }
+
+int main(void) {
+    Card deck[52];
+
+    initialize_deck(deck, 52);
+
+    /* Optional: simple verification */
+    int i;
+    for (i = 0; i < 52; i++) {
+        printf("Card %2d: suit=%d, rank=%d\n",
+               i + 1, deck[i].suit, deck[i].rank);
+    }
+
+    return 0;
+}
+
