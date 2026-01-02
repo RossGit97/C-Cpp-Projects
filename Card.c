@@ -1,44 +1,80 @@
 #include <stdio.h>
 
+/* ---- Enums ---- */
+
 typedef enum {
-    CLUBS, DIAMONDS, HEARTS, SPADES
+    CLUBS,
+    DIAMONDS,
+    HEARTS,
+    SPADES,
+    SUIT_COUNT
 } Suit;
 
 typedef enum {
-    TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN,
-    JACK, QUEEN, KING, ACE
+    TWO,
+    THREE,
+    FOUR,
+    FIVE,
+    SIX,
+    SEVEN,
+    EIGHT,
+    NINE,
+    TEN,
+    JACK,
+    QUEEN,
+    KING,
+    ACE,
+    RANK_COUNT
 } Rank;
+
+/* ---- String representations ---- */
+
+static const char *SUIT_NAMES[SUIT_COUNT] = {
+    "Clubs", "Diamonds", "Hearts", "Spades"
+};
+
+static const char *RANK_NAMES[RANK_COUNT] = {
+    "Two", "Three", "Four", "Five", "Six", "Seven",
+    "Eight", "Nine", "Ten", "Jack", "Queen", "King", "Ace"
+};
+
+/* ---- Struct ---- */
 
 typedef struct {
     Suit suit;
     Rank rank;
 } Card;
 
-void initialize_deck(Card deck[], int size) {
-    int card_count = 0;
-	int s,r;
-    for (s = CLUBS; s <= SPADES; s++) {
-        for (r = TWO; r <= ACE; r++) {
-            if (card_count < size) {
-                deck[card_count].suit = (Suit)s;
-                deck[card_count].rank = (Rank)r;
-                card_count++;
-            }
+/* ---- Functions ---- */
+
+void initialize_deck(Card deck[]) {
+    int s,r,card_count = 0;
+
+    for (s = 0; s < SUIT_COUNT; s++) {
+        for (r = 0; r < RANK_COUNT; r++) {
+            deck[card_count].suit = s;
+            deck[card_count].rank = r;
+            card_count++;
         }
     }
 }
 
-int main(void) {
-    Card deck[52];
-
-    initialize_deck(deck, 52);
-
-    /* Optional: simple verification */
-    int i;
-    for (i = 0; i < 52; i++) {
-        printf("Card %2d: suit=%d, rank=%d\n",
-               i + 1, deck[i].suit, deck[i].rank);
+void print_deck(const Card deck[], int size) {
+	int i;
+    for (i = 0; i < size; i++) {
+        printf("%s of %s\n",
+               RANK_NAMES[deck[i].rank],
+               SUIT_NAMES[deck[i].suit]);
     }
+}
+
+/* ---- Main ---- */
+
+int main(void) {
+    Card deck[SUIT_COUNT * RANK_COUNT];
+
+    initialize_deck(deck);
+    print_deck(deck, SUIT_COUNT * RANK_COUNT);
 
     return 0;
 }
