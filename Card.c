@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 /* ---- Enums ---- */
 
@@ -68,14 +70,30 @@ void print_deck(const Card deck[], int size) {
     }
 }
 
+/* ---- Fisher-Yates Shuffle ---- */
+void shuffle_deck(){
+	Card deck[SUIT_COUNT * RANK_COUNT];
+	initialize_deck(deck);
+	Card temp;
+	int size, random_index;
+	for(size = 51; size > 0; size--){
+		random_index = rand()%size;
+		temp = deck[random_index];
+		deck[random_index] = deck[size];
+		deck[size] = temp;
+	}
+	print_deck(deck, 52);
+}
+
 /* ---- Main ---- */
 
 int main(void) {
+	srand(time(NULL));
     Card deck[SUIT_COUNT * RANK_COUNT];
 
     initialize_deck(deck);
-    print_deck(deck, SUIT_COUNT * RANK_COUNT);
-
+    //print_deck(deck, SUIT_COUNT * RANK_COUNT);
+	shuffle_deck();
     return 0;
 }
 
